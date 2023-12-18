@@ -1,0 +1,77 @@
+<!--Ty Davisson - Program 6-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/vue@next"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <title>All Tickets</title>
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <nav class="navbar navbar-inverse">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Speeding Tickets</a>
+            </div>
+
+            <div>
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="index.html">All Tickets</a></li>
+                    <li><a href="25over.html">25+ mph Over</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <div id="allTickets">
+
+            <h1>All Tickets</h1>
+
+            <table class="table table-bordered table-striped table-hover">
+                <tr>
+                    <th>Ticket ID</th>
+                    <th>Time</th>
+                    <th>Posted Speed</th>
+                    <th>MPH Over</th>
+                    <th>Violator Sex</th>
+                </tr>
+
+                <tr v-for = "t in tickets">
+                    <td>{{t.tid}}</td>
+                    <td>{{t.stop_time}}</td>
+                    <td>{{t.posted_speed}}</td>
+                    <td>{{t.actual_speed - t.posted_speed}}</td>
+                    <td>{{t.violator_sex}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>  
+    
+    <script>
+
+        let app = Vue.createApp({
+            data(){
+                return {
+                    tickets: [],
+                }
+            },
+            created() {
+                this.getData()
+            },
+            methods :{
+                async getData(){
+                    const response = await fetch('tickets1.json')
+                    this.tickets = await response.json()
+                }
+            }
+        })
+        app.mount('#allTickets') 
+
+    </script>
+
+</body>
+</html>
